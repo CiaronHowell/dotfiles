@@ -1,5 +1,5 @@
 [user]
-  email = ciaron_howell@hotmail.co.uk
+  email = ciaron.howell@stfc.ac.uk
 
 [alias]
   ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
