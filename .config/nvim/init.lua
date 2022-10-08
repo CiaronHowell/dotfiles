@@ -1,0 +1,98 @@
+o = vim.o
+o.termguicolors = true
+o.syntax = 'on'
+o.errorbells = false
+o.smartcase = true
+o.showmode = false
+o.backup = false
+o.undodir = vim.fn.stdpath('config') .. '/undodir'
+o.undofile = true
+o.incsearch = true
+o.hidden = true
+o.completeopt = 'menuone,noinsert,noselect'
+o.tabstop = 2
+o.softtabstop = 2
+o.shiftwidth = 2
+o.expandtab = true
+
+bo = vim.bo
+bo.swapfile = false
+bo.autoindent = true
+bo.smartindent = true
+
+wo = vim.wo
+wo.number = true
+wo.relativenumber = true
+wo.signcolumn = 'yes'
+wo.wrap = false
+
+g = vim.g
+g.mapleader = ' ' -- This is setting leader to <SPACE>
+-- Needed for Tree Explorer
+g.loaded = 1
+g.loaded_netrwPlugin = 1
+--
+
+-- Wrapping nvim_set_keymap function to make it neater to impl keybinds
+-- mode = visual, insert, or cmd
+-- key = the key(s) to bind the result to
+-- result = what we want to happen after hitting the key(s)
+local key_mapper = function(mode, key, result)
+  vim.api.nvim_set_keymap(
+    mode,
+    key,
+    result,
+    { noremap = true, silent = true }
+  )
+end
+
+-- PLUGINS --
+require('plugins')
+require('treesitter-configs')
+
+-- THEME --
+pcall(vim.cmd, 'colorscheme onedark')
+
+-- KEYBINDS --
+-- We don't use arrow keys here
+key_mapper('', '<up>', '<nop>')
+key_mapper('', '<down>', '<nop>')
+key_mapper('', '<left>', '<nop>')
+key_mapper('', '<right>', '<nop>')
+key_mapper('i', 'jj', '<ESC>') -- Let's see how this feels
+
+-- Keybinds for telescope
+key_mapper('', '<leader>ff', ':lua require("telescope.builtin").find_files()<cr>')
+key_mapper('', '<leader>fg', ':lua require("telescope.builtin").live_grep()<cr>')
+key_mapper('', '<leader>fb', ':lua require("telescope.builtin").buffers()<cr>')
+key_mapper('', '<leader>fh', ':lua require("telescope.builtin").help_tags()<cr>')
+
+-- Keybinds for Harpoon
+-- Mark files
+key_mapper('', '<leader>m', ':lua require("harpoon.mark").add_file()<cr>')
+-- Quick nav
+for i = 0, 9, 1 do
+  key_mapper(
+    '',
+    string.format('<leader>%d', i),
+    string.format(':lua require("harpoon.ui").nav_file(%d)<cr>', i)
+  )
+end
+key_mapper('', '<leader><left>', ':lua require("harpoon.ui").nav_prev()<cr>')
+key_mapper('', '<leader><right>', ':lua require("harpoon.ui").nav_next()<cr>')
+key_mapper('', '<leader>h', ':lua require("harpoon.ui").toggle_quick_menu()<cr>')
+key_mapper('', '<leader>fm', ':Telescope harpoon marks<cr>')
+key_mapper('', '<leader>t', ':lua require("harpoon.term").gotoTerminal(1)<cr>')
+
+-- Keybinds for Nvim-Tree
+key_mapper('', '<leader>e', ':NvimTreeFocus<cr>')
+key_mapper('', '<leader>E', ':NvimTreeToggle<cr>')
+
+
+-- Autocommands
+vim.cmd([[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
+  augroup end
+]])
