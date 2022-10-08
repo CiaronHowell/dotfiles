@@ -1,0 +1,12 @@
+[user]
+  email = ciaron_howell@hotmail.co.uk
+
+[alias]
+  ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
+  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+  lds = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=short  graph = log --all --decorate --oneline --graph
+  graph = log --all --decorate --oneline --graph
+  cleanup = !git fetch -p | git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -d
+
+[init]
+	defaultBranch = main
