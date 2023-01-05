@@ -1,62 +1,43 @@
-local cmp = require'cmp'
-local lspkind = require'lspkind'
+-- nvim-cmp setup
+local cmp = require 'cmp'
+local luasnip = require 'luasnip'
 
-cmp.setup({
+cmp.setup {
   snippet = {
     expand = function(args)
-      -- For `ultisnips` user.
-      vim.fn["UltiSnips#Anon"](args.body)
+      luasnip.lsp_expand(args.body)
     end,
   },
-  mapping = cmp.mapping.preset.insert({
-          ['<Tab>'] = function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            else
-              fallback()
-            end
-          end,
-          ['<S-Tab>'] = function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            else
-              fallback()
-            end
-          end,
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),
-          ['<C-e>'] = cmp.mapping.abort(),
-          ['<Esc>'] = cmp.mapping.close(),
-          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        }),
+  mapping = cmp.mapping.preset.insert {
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+  },
   sources = {
-    { name = 'nvim_lsp' }, -- For nvim-lsp
-    { name = 'ultisnips' }, -- For ultisnips user.
-    { name = 'nvim_lua' }, -- for nvim lua function
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
     { name = 'path' }, -- for path completion
-    { name = 'buffer', keyword_length = 4 }, -- for buffer word completion
-    { name = 'omni' },
-    { name = 'emoji', insert = true, } -- emoji completion
   },
-  completion = {
-    keyword_length = 1,
-    completeopt = "menu,noselect"
-  },
-  view = {
-    entries = 'custom',
-  },
-  formatting = {
-    format = lspkind.cmp_format({
-      mode = "symbol_text",
-      menu = ({
-        nvim_lsp = "[LSP]",
-        ultisnips = "[US]",
-        nvim_lua = "[Lua]",
-        path = "[Path]",
-        buffer = "[Buffer]",
-        emoji = "[Emoji]",
-          omni = "[Omni]",
-      }),
-    }),
-  },
-})
+}

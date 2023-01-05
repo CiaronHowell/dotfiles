@@ -2,7 +2,6 @@ o = vim.o
 o.termguicolors = true
 o.syntax = 'on'
 o.errorbells = false
-o.ignorecase = true
 o.smartcase = true
 o.showmode = false
 o.backup = false
@@ -10,15 +9,11 @@ o.undodir = vim.fn.stdpath('config') .. '/undodir'
 o.undofile = true
 o.incsearch = true
 o.hidden = true
-o.completeopt = 'menuone,noselect'
+o.completeopt = 'menuone,noinsert,noselect'
 o.tabstop = 2
 o.softtabstop = 2
 o.shiftwidth = 2
 o.expandtab = true
-o.hlsearch = false
-o.mouse = 'a' -- Enable mouse mode
-o.breakindent = true
-o.updatetime = 250
 
 bo = vim.bo
 bo.swapfile = false
@@ -33,18 +28,17 @@ wo.wrap = false
 
 g = vim.g
 g.mapleader = ' ' -- This is setting leader to <SPACE>
-g.maplocalleader = ' '
 -- Needed for Tree Explorer
 g.loaded = 1
 g.loaded_netrwPlugin = 1
-
+--
 
 -- Wrapping nvim_set_keymap function to make it neater to impl keybinds
 -- mode = visual, insert, or cmd
 -- key = the key(s) to bind the result to
 -- result = what we want to happen after hitting the key(s)
 local key_mapper = function(mode, key, result)
-  vim.api.nvim_set_keymap( -- TODO: Look into replacing this with vim.keymap.set()
+  vim.api.nvim_set_keymap(
     mode,
     key,
     result,
@@ -54,33 +48,46 @@ end
 
 -- PLUGINS --
 require('plugins')
-pcall(require('telescope').load_extension, 'fzf')
+require('treesitter-configs')
 
+-- TODO: Export into lualine config file
+local status = require('nvim-spotify').status
+status:start()
+
+require('lualine').setup {
+  sections = {
+    lualine_x = {
+      status.listen
+    }
+  }
+}
+
+-- local lsp = require('lsp-zero')
+-- lsp.preset('recommended')
+-- lsp.nvim_workspace()
+-- lsp.setup()
 
 -- THEME --
-pcall(vim.cmd, 'colorscheme tokyonight')
+pcall(vim.cmd, 'colorscheme onedark')
 
 -- KEYBINDS --
-key_mapper('', '<space>', '<nop>') -- Unbind space
-
 -- We don't use arrow keys here
 key_mapper('', '<up>', '<nop>')
 key_mapper('', '<down>', '<nop>')
 key_mapper('', '<left>', '<nop>')
 key_mapper('', '<right>', '<nop>')
-key_mapper('i', 'jj', '<ESC>')
+key_mapper('i', 'jj', '<ESC>') -- Let's see how this feels
 
 -- Keybinds for telescope
 key_mapper('', '<leader>ff', ':lua require("telescope.builtin").find_files()<cr>')
 key_mapper('', '<leader>fg', ':lua require("telescope.builtin").live_grep()<cr>')
 key_mapper('', '<leader>fb', ':lua require("telescope.builtin").buffers()<cr>')
 key_mapper('', '<leader>fh', ':lua require("telescope.builtin").help_tags()<cr>')
-key_mapper('', '<leader>fd', ':lua require("telescope.builtin").diagnostics()<cr>')
-key_mapper('', '<leader>fk', ':lua require("telescope.builtin").keymaps()<cr>')
 key_mapper('', '<leader>ft', ':TodoTelescope<cr>')
 
 -- Keybinds for Harpoon
-key_mapper('', '<leader>m', ':lua require("harpoon.mark").add_file()<cr>') -- Mark files
+-- Mark files
+key_mapper('', '<leader>m', ':lua require("harpoon.mark").add_file()<cr>')
 -- Quick nav
 for i = 0, 9, 1 do
   key_mapper(
@@ -99,6 +106,7 @@ key_mapper('', '<leader>t', ':lua require("harpoon.term").gotoTerminal(1)<cr>')
 key_mapper('', '<leader>ww', ':lua require("telescope").extensions.git_worktree.git_worktrees()<cr>')
 key_mapper('', '<leader>wc', ':lua require("telescope").extensions.git_worktree.create_git_worktree()<cr>')
 
+
 -- Keybinds for Nvim-Tree
 key_mapper('', '<leader>e', ':NvimTreeFocus<cr>')
 key_mapper('', '<leader>E', ':NvimTreeToggle<cr>')
@@ -111,13 +119,3 @@ vim.cmd([[
     autocmd BufWritePost plugins.lua source <afile> | PackerCompile
   augroup end
 ]])
-
--- Highlight on Yank
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = '*',
-})
