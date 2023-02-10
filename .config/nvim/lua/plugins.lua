@@ -18,8 +18,8 @@ return require('packer').startup(function(use)
 
   -- Themes
   use 'joshdick/onedark.vim'
-  use 'folke/tokyonight.nvim'
   use 'tjdevries/colorbuddy.vim'
+  use 'folke/tokyonight.nvim'
 
   use {
     'nvim-telescope/telescope.nvim',
@@ -62,7 +62,7 @@ return require('packer').startup(function(use)
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-nvim-lsp",
       'hrsh7th/cmp-nvim-lua',
-      'quangnguyen30192/cmp-nvim-ultisnips',
+      -- 'quangnguyen30192/cmp-nvim-ultisnips',
       'octaltree/cmp-look',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-calc',
@@ -83,7 +83,7 @@ return require('packer').startup(function(use)
     run = function()
       require('nvim-treesitter.install').update({ with_sync = true })
     end,
-    config = function ()
+    config = function()
       require('treesitter-configs')
     end
   }
@@ -139,7 +139,7 @@ return require('packer').startup(function(use)
 
   use {
     'lukas-reineke/indent-blankline.nvim',
-    config = function ()
+    config = function()
       require('indent_blankline').setup {
         char = '┊',
         show_trailing_blankline_indent = false,
@@ -149,13 +149,13 @@ return require('packer').startup(function(use)
   use 'tpope/vim-sleuth'
 
   use {
-    'kyazdani42/nvim-tree.lua',
+    'nvim-tree/nvim-tree.lua',
     requires = {
-      'kyazdani42/nvim-web-devicons',
+      'nvim-tree/nvim-web-devicons',
     },
-    config = {
+    config = function()
       require('nvim-tree').setup()
-    }
+    end
   }
 
   use {
@@ -178,7 +178,7 @@ return require('packer').startup(function(use)
     'nvim-lualine/lualine.nvim',
     after = 'nvim-spotify',
     requires = {
-      'kyazdani42/nvim-web-devicons',
+      'nvim-tree/nvim-web-devicons',
       opt = true
     },
     config = function()

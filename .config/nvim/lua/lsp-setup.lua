@@ -54,74 +54,64 @@ local on_attach = function(_, bufnr)
   -- })
 end
 
--- Setup mason so it can manage external tooling
-require('mason').setup()
+-- Make runtime files discoverable to the server
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, 'lua/?.lua')
+table.insert(runtime_path, 'lua/?/init.lua')
 
--- Enable the following language servers
--- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'sumneko_lua', 'gopls', 'jsonls', 'dockerls' }
+local servers = {
+    -- language_name = { settings in here },
 
--- Ensure the servers above are installed
-require('mason-lspconfig').setup {
-  ensure_installed = servers,
+    sumneko_lua = {
+        Lua = {
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT)
+                version = 'LuaJIT',
+                -- Setup your lua path
+                path = runtime_path,
+            },
+            diagnostics = {
+                globals = { 'vim' },
+            },
+            workspace = { library = vim.api.nvim_get_runtime_file('', true) },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = { enable = false },
+        },
+    },
+    yamlls = {
+        yaml = {
+            schemas = { kubernetes = "*.yaml" },
+        }
+    },
+    sourcery = {
+        init_options = {
+            token = 'user_RSaPnwQGqWM9Gg3qiSQogix8KT3dWUTF32JdWrp2tvXGvXl1CDnMYXFMjkU'
+        }
+    },
+    efm = {} -- Setup is handled manually
 }
 
 -- nvim-cmp supports additional completion capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-for _, lsp in ipairs(servers) do
-  require('lspconfig')[lsp].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-end
+-- Setup mason so it can manage external tooling
+require('mason').setup()
 
--- Turn on lsp status information
-require('fidget').setup()
-
--- Make runtime files discoverable to the server
-local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, 'lua/?.lua')
-table.insert(runtime_path, 'lua/?/init.lua')
-
-require('lspconfig').sumneko_lua.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT)
-        version = 'LuaJIT',
-        -- Setup your lua path
-        path = runtime_path,
-      },
-      diagnostics = {
-        globals = { 'vim' },
-      },
-      workspace = { library = vim.api.nvim_get_runtime_file('', true) },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = { enable = false },
-    },
-  },
+local mason_lspconfig = require('mason-lspconfig')
+-- Ensure the servers above are installed
+mason_lspconfig.setup {
+    ensure_installed = vim.tbl_keys(servers),
 }
 
-require('lspconfig').yamlls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  settings = {
-    yaml = {
-      schemas = { kubernetes = "*.yaml" },
+mason_lspconfig.setup_handlers {
+  function(server_name)
+    require('lspconfig')[server_name].setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = servers[server_name],
     }
-  }
-}
-
-require('lspconfig').sourcery.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  init_options = {
-    token = 'user_RSaPnwQGqWM9Gg3qiSQogix8KT3dWUTF32JdWrp2tvXGvXl1CDnMYXFMjkU'
-  }
+  end,
 }
 
 -- efm being used for lsps that don't contain linters
@@ -141,3 +131,6 @@ require('lspconfig').efm.setup {
     }
   }
 }
+
+-- Turn on lsp status information
+require('fidget').setup()

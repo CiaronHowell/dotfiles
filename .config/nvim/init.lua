@@ -58,10 +58,15 @@ pcall(require('telescope').load_extension, 'fzf')
 
 
 -- THEME --
+require('tokyonight').setup({
+  transparent=true
+})
 pcall(vim.cmd, 'colorscheme tokyonight')
 
 -- KEYBINDS --
 key_mapper('', '<space>', '<nop>') -- Unbind space
+key_mapper('', '<C-u>', '<C-u>zz')
+key_mapper('', '<C-d>', '<C-d>zz')
 
 -- We don't use arrow keys here
 key_mapper('', '<up>', '<nop>')

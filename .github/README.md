@@ -12,6 +12,4 @@ Nice-looking and **blazingly fast** terminal in seconds, *or your money back*.
 ## Todo
 
 - [ ] Add Brewfile to auto install necessary packages for macOS
-- [ ] Add auto install of NvChad
-  - [ ] Copy over custom config
 
