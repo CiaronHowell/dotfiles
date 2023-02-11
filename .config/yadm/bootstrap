@@ -15,4 +15,9 @@ if [ "$system_type" = "Darwin" ]; then
     brew bundle --global
   fi
 
+  # Install fisher for fish shell
+  curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
+
+  fisher update
+
 fi
