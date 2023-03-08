@@ -12,5 +12,5 @@ Nice-looking and **blazingly fast** terminal in seconds, *or your money back*.
 
 ## Contents
 
-NVIM Config is located [here](./.config/nvim/).
+NVIM Config is located [here](../.config/nvim/).
 
