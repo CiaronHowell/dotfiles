@@ -62,7 +62,7 @@ table.insert(runtime_path, 'lua/?/init.lua')
 local servers = {
     -- language_name = { settings in here },
 
-    sumneko_lua = {
+    lua_ls = {
         Lua = {
             runtime = {
                 -- Tell the language server which version of Lua you're using (most likely LuaJIT)

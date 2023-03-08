@@ -1,4 +1,5 @@
 status is-login; and pyenv init --path | source
+fish_add_path /opt/homebrew/bin
 fish_add_path /usr/local/opt/tcl-tk/bin
 fish_add_path "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 if not set -q $ITERM_SESSION_ID
@@ -29,3 +30,6 @@ set --export --prepend PATH "/Users/ciaron.howell/.rd/bin"
 set -gx PNPM_HOME "/Users/ciaron.howell/Library/pnpm"
 set -gx PATH "$PNPM_HOME" $PATH
 # pnpm end
+
+# Created by `pipx` on 2023-02-27 18:26:35
+set PATH $PATH /Users/ciaronhowell/.local/bin

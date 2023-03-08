@@ -158,42 +158,42 @@ return require('packer').startup(function(use)
     end
   }
 
-  use {
-    'KadoBOT/nvim-spotify',
-    config = function()
-      local spotify = require 'nvim-spotify'
-
-      spotify.setup {
-        -- default opts
-        status = {
-          update_interval = 10000, -- the interval (ms) to check for what's currently playing
-          format = '%s %t by %a' -- spotify-tui --format argument
-        }
-      }
-    end,
-    run = 'make'
-  }
+  -- use {
+  --   'KadoBOT/nvim-spotify',
+  --   config = function()
+  --     local spotify = require 'nvim-spotify'
+  --
+  --     spotify.setup {
+  --       -- default opts
+  --       status = {
+  --         update_interval = 10000, -- the interval (ms) to check for what's currently playing
+  --         format = '%s %t by %a' -- spotify-tui --format argument
+  --       }
+  --     }
+  --   end,
+  --   run = 'make'
+  -- }
 
   use {
     'nvim-lualine/lualine.nvim',
-    after = 'nvim-spotify',
+    -- after = 'nvim-spotify',
     requires = {
       'nvim-tree/nvim-web-devicons',
       opt = true
     },
     config = function()
-      local status = require('nvim-spotify').status
-      status:start()
+      -- local status = require('nvim-spotify').status
+      -- status:start()
 
       require('lualine').setup {
         options = {
           theme = 'tokyonight'
         },
-        sections = {
-          lualine_x = {
-            status.listen
-          }
-        }
+        -- sections = {
+        --   lualine_x = {
+        --     status.listen
+        --   }
+        -- }
       }
     end
   }

@@ -1,0 +1,20 @@
+yabai -m config layout bsp
+
+# Sets new window to the right or bottom
+yabai -m config window_placement second_child
+
+# Padding (by x pts)
+yabai -m config top_padding 5
+yabai -m config bottom_padding 5
+yabai -m config left_padding 5
+yabai -m config right_padding 5
+yabai -m config window_gap 5
+
+yabai -m config mouse_follows_focus on
+
+# Change modifier key
+yabai -m config mouse_modifier alt
+
+# Default values
+yabai -m config mouse_action1 move
+yabai -m config mouse_action2 resize

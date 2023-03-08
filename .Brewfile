@@ -50,6 +50,7 @@ brew "vim"
 brew "wget"
 brew "yadm"
 brew "z"
+brew "poetry"
 
 # Apps
 cask "blackhole-2ch"
@@ -59,3 +60,8 @@ cask "obs"
 cask "obsidian"
 cask "raycast"
 cask "itsycal"
+cask "spotify" # Must have
+cask "tableplus"
+
+# Formulae
+brew "koekeishiya/formulae/yabai" # Tiler
