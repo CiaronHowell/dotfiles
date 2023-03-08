@@ -10,4 +10,7 @@ Nice-looking and **blazingly fast** terminal in seconds, *or your money back*.
   * Brewfile should automatically start installing, but if this doesn't happen you can run `yadm bootstrap`
 * Restart your ZSH instance (also contains Fish configs)
 
+## Contents
+
+NVIM Config is located [here](./.config/nvim/).
 
