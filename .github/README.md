@@ -7,9 +7,7 @@ Nice-looking and **blazingly fast** terminal in seconds, *or your money back*.
 * Install [yadm](https://yadm.io/docs/install)
   * Adds a wrapper around `git` so it works exactly how you'd expect when using `git`
 * Run `yadm clone <repo_url>`
-* Restart your ZSH instance
+  * Brewfile should automatically start installing, but if this doesn't happen you can run `yadm bootstrap`
+* Restart your ZSH instance (also contains Fish configs)
 
-## Todo
-
-- [ ] Add Brewfile to auto install necessary packages for macOS
 
