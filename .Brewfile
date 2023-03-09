@@ -65,3 +65,4 @@ cask "tableplus"
 
 # Formulae
 brew "koekeishiya/formulae/yabai" # Tiler
+brew "koekeishiya/formulae/skhd" # Hotkey daemon
