@@ -18,3 +18,15 @@ yabai -m config mouse_modifier alt
 # Default values
 yabai -m config mouse_action1 move
 yabai -m config mouse_action2 resize
+
+# Rules
+yabai -m rule --add app="1Password" manage=off
+yabai -m rule --add app="Finder" manage=off
+yabai -m rule --add app="System Settings" manage=off
+yabai -m rule --add app="Numi" manage=off
+yabai -m rule --add app="Microsoft To Do" manage=off
+yabai -m rule --add app="Messenger" manage=off
+yabai -m rule --add app="Preview" manage=off
+yabai -m rule --add app="WhatsApp" manage=off
+yabai -m rule --add app="OrbStack" manage=off
+yabai -m rule --add app="Kap" manage=off

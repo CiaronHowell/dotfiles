@@ -15,7 +15,7 @@ set -g -x LDFLAGS "$LDFLAGS -L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib
 set -g -x CPPFLAGS "$CPPFLAGS -I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"
 
 set -x GOPATH $HOME/go
-set -x GOROOT "/usr/local/opt/go/libexec"
+set -x GOROOT "$(brew --prefix golang)/libexec"
 
 set -x PATH $PATH $GOROOT/bin $GOPATH/bin
 fish_add_path /usr/local/opt/libxml2/bin
@@ -23,7 +23,7 @@ fish_add_path /usr/local/opt/libxml2/bin
 set -x Z_DATA $HOME/.z.fish
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-set --export --prepend PATH "/Users/ciaron.howell/.rd/bin"
+set --export --prepend PATH "/Users/ciaronhowell/.rd/bin"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
 # pnpm
