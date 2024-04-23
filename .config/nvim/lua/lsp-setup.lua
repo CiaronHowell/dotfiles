@@ -1,5 +1,5 @@
 -- LSP Settings
--- This function gets run when an LSP connects to a particular buffer.
+-- This function gets executed when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
   local nmap = function(keys, func, desc)
     if desc then
@@ -43,14 +43,6 @@ local on_attach = function(_, bufnr)
       vim.lsp.buf.formatting()
     end
   end, { desc = "Format current buffer with LSP" })
-
-  -- AutoCMD below is janky - don't always need to format
-  -- vim.api.nvim_create_autocmd("BufWritePre", {
-  --   pattern = {
-  --     "*"
-  --   },
-  --   command = [[lua vim.lsp.buf.formatting_sync()]]
-  -- })
 end
 
 -- Make runtime files discoverable to the server
@@ -58,24 +50,13 @@ local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
+-- neodev needs to run before mason
+require("neodev").setup({})
+
+-- Setup mason so it can manage external tooling
+require("mason").setup()
+
 local servers = {
-  -- language_name = { settings in here },
-  lua_ls = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT)
-        version = "LuaJIT",
-        -- Setup your lua path
-        path = runtime_path,
-      },
-      diagnostics = {
-        globals = { "vim" },
-      },
-      workspace = { library = vim.api.nvim_get_runtime_file("", true) },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = { enable = false },
-    },
-  },
   yamlls = {
     yaml = {
       schemas = { kubernetes = "*.yaml" },
@@ -83,26 +64,15 @@ local servers = {
   },
 }
 
--- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
--- Setup mason so it can manage external tooling
-require("mason").setup()
-
-require("mason-null-ls").setup({
-  automatic_installation = false,
-  automatic_setup = true,
-  handlers = {},
-})
-
-require("null-ls").setup()
-
 local mason_lspconfig = require("mason-lspconfig")
 -- Ensure the servers above are installed
 mason_lspconfig.setup({
   ensure_installed = vim.tbl_keys(servers),
 })
+
+-- nvim-cmp supports additional completion capabilities
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 mason_lspconfig.setup_handlers({
   function(server_name)
@@ -115,4 +85,4 @@ mason_lspconfig.setup_handlers({
 })
 
 -- Turn on lsp status information
-require("fidget").setup()
+require("fidget").setup({})
