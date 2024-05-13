@@ -28,8 +28,12 @@ set --export --prepend PATH "/Users/ciaronhowell/.rd/bin"
 
 # pnpm
 set -gx PNPM_HOME "/Users/ciaron.howell/Library/pnpm"
-set -gx PATH "$PNPM_HOME" $PATH
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
 # pnpm end
 
 # Created by `pipx` on 2023-02-27 18:26:35
 set PATH $PATH /Users/ciaronhowell/.local/bin
+
+zoxide init fish | source
