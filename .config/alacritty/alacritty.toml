@@ -1,8 +1,8 @@
 import = ["~/.config/alacritty/catppuccin-mocha.toml"]
 
 [shell]
-program = "/bin/zsh"
-args = ["-l"]
+program = "/opt/homebrew/bin/tmux"
+args = ["new-session", "-A", "-D", "-s", "main"]
 
 [window]
 padding = { x = 5, y = 5}
