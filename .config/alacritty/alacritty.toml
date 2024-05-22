@@ -1,0 +1,18 @@
+import = ["~/.config/alacritty/catppuccin-mocha.toml"]
+
+[shell]
+program = "/bin/zsh"
+args = ["-l"]
+
+[window]
+padding = { x = 5, y = 5}
+opacity = 1
+blur = true
+decorations_theme_variant = "Dark"
+
+[font]
+normal = { family = "BitstromWera Nerd Font Propo", style = "Regular" }
+size = 15
+
+[env]
+TERM = "alacritty"
