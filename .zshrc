@@ -5,6 +5,14 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+if [[ -f "/opt/homebrew/bin/brew" ]] then
+  # If you're using macOS, you'll want this enabled
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+export TERM=alacritty
+
+
 # -----------------
 # Zsh configuration
 # -----------------
@@ -12,19 +20,8 @@ fi
 #
 # Aliases
 #
-
-alias vim="nvim"
-alias vs="code"
-
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-export PATH="/Users/ciaronhowell/Library/Python/3.9/bin:$PATH"
-
-# Autocomplete for Poetry
-fpath+=~/.zfunc
-autoload -Uz compinit && compinit
+alias vim='nvim'
+alias c='clear'
 
 #
 # History
@@ -40,16 +37,14 @@ setopt HIST_IGNORE_ALL_DUPS
 # Set editor default keymap to emacs (`-e`) or vi (`-v`)
 bindkey -v
 
+# Prompt for spelling correction of commands.
+#setopt CORRECT
+
+# Customize spelling correction prompt.
+#SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 
 # Remove path separator from WORDCHARS.
 WORDCHARS=${WORDCHARS//[\/]}
-
-# -----------------
-# Zim configuration
-# -----------------
-
-# Use degit instead of git as the default tool to install and update modules.
-#zstyle ':zim:zmodule' use 'degit'
 
 # --------------------
 # Module configuration
@@ -60,14 +55,14 @@ WORDCHARS=${WORDCHARS//[\/]}
 #
 
 # Set a custom prefix for the generated aliases. The default prefix is 'G'.
-#zstyle ':zim:git' aliases-prefix 'g'
+zstyle ':zim:git' aliases-prefix 'g'
 
 #
 # input
 #
 
 # Append `../` to your input for each `.` you type after an initial `..`
-#zstyle ':zim:input' double-dot-expand yes
+zstyle ':zim:input' double-dot-expand yes
 
 #
 # termtitle
@@ -129,11 +124,14 @@ source ${ZIM_HOME}/init.zsh
 # Post-init module configuration
 # ------------------------------
 
+eval "$(zoxide init zsh)"
+
 #
 # zsh-history-substring-search
 #
 
 zmodload -F zsh/terminfo +p:terminfo
+
 # Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
 for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
 for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
@@ -141,9 +139,7 @@ for key ('k') bindkey -M vicmd ${key} history-substring-search-up
 for key ('j') bindkey -M vicmd ${key} history-substring-search-down
 unset key
 
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/ciaronhowell/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+(( ! ${+functions[p10k]} )) || p10k finalize
