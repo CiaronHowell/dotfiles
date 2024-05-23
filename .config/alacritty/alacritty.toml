@@ -5,14 +5,14 @@ program = "/opt/homebrew/bin/tmux"
 args = ["new-session", "-A", "-D", "-s", "main"]
 
 [window]
-padding = { x = 5, y = 5}
-opacity = 1
+padding = { x = 10, y = 10}
+opacity = 0.8
 blur = true
 decorations_theme_variant = "Dark"
 
 [font]
 normal = { family = "BitstromWera Nerd Font Propo", style = "Regular" }
-size = 15
+size = 16
 
 [env]
 TERM = "alacritty"
