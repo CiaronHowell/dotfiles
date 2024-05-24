@@ -4,7 +4,7 @@
 #
 # Theme
 #
-zmodule romkatv/powerlevel10k --use degit
+zmodule joke/zim-starship
 
 #
 # Modules
