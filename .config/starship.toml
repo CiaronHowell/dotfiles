@@ -28,7 +28,14 @@ base = "#1e1e2e"
 mantle = "#181825"
 crust = "#11111b"
 
+[kubernetes]
+disabled = true
+detect_files = ['k8s']
+format = "[$symbol($cluster/)($namespace)]($style) "
+style = "bright-blue"
+
 [aws]
+disabled = true
 symbol = " "
 
 [buf]

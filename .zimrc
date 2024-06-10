@@ -24,7 +24,6 @@ zmodule utility
 #
 
 # Provides handy git aliases and functions.
-zmodule git
 zmodule exa
 zmodule joke/zim-yq # TODO: Move from jq -> yq
 zmodule joke/zim-kubectl
