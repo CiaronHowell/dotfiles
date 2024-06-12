@@ -24,6 +24,16 @@ alias vim='nvim'
 alias c='clear'
 
 #
+# Git Aliases
+#
+
+alias g='git'
+alias gs='git status -s'
+alias gd='git diff'
+alias gc='git commit'
+alias gb='git branch -a'
+
+#
 # History
 #
 
