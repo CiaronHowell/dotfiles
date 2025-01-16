@@ -50,9 +50,6 @@ local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
--- neodev needs to run before mason
-require("neodev").setup({})
-
 -- Setup mason so it can manage external tooling
 require("mason").setup()
 

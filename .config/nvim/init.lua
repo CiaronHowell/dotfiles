@@ -1,18 +1,11 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"--filter=blob:none",
-		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable", -- latest stable release
-		lazypath,
-	})
-end
-vim.opt.rtp:prepend(lazypath)
-
 -- nvim configuration --
-require("vim-options")
-require("vim-keymaps") -- Needs to be loaded before lazy
+require("config.vim-options")
+require("config.vim-keymaps") -- Needs to be loaded before lazy
 
-require("lazy").setup("plugins")
+require("config.lazy")
+
+-- TODO: Tidy this stuff up
+vim.cmd([[colorscheme tokyonight-night]])
+vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#757a90", bold = false })
+vim.api.nvim_set_hl(0, "LineNr", { fg = "#9da0b0", bold = true })
+vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#757a90", bold = false })
