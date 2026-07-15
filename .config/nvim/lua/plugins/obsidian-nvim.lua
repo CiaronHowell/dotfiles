@@ -7,6 +7,7 @@ return {
 		"nvim-lua/plenary.nvim",
 	},
 	opts = {
+		legacy_commands = false, -- use the `:Obsidian <subcommand>` command style
 		workspaces = {
 			{
 				name = "work",
