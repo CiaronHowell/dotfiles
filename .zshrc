@@ -134,7 +134,29 @@ for key ('j') bindkey -M vicmd ${key} history-substring-search-down
 unset key
 
 eval "$(starship init zsh)"
+eval "$(uv generate-shell-completion zsh)"
+export PATH="/Users/ciaronhowell/.config/herd-lite/bin:$PATH"
+export PHP_INI_SCAN_DIR="/Users/ciaronhowell/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+
+
+# Herd injected PHP 8.3 configuration.
+export HERD_PHP_83_INI_SCAN_DIR="/Users/ciaronhowell/Library/Application Support/Herd/config/php/83/"
+
+
+# Herd injected PHP binary.
+export PATH="/Users/ciaronhowell/Library/Application Support/Herd/bin/":$PATH
+
+# Herd injected PHP 8.2 configuration.
+export HERD_PHP_82_INI_SCAN_DIR="/Users/ciaronhowell/Library/Application Support/Herd/config/php/82/"
+
+export PATH=$PATH:$HOME/.local/bin
 
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+eval "$(pyenv init - zsh)"
+
+# fnm
+FNM_PATH="/opt/homebrew/opt/fnm/bin"
+if [ -d "$FNM_PATH" ]; then
+  eval "$(fnm env --shell zsh)"
+fi
