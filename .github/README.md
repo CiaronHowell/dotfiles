@@ -30,6 +30,7 @@ Managed with [yadm](https://yadm.io), so the files live exactly where they belon
 | Editor | [Neovim](../.config/nvim/) | Lua config built on [lazy.nvim](https://github.com/folke/lazy.nvim) — LSP via mason/lspconfig, treesitter, telescope, harpoon, gitsigns, fugitive and more |
 | Shell | [`.zshrc`](../.zshrc), [`.zimrc`](../.zimrc) | Zsh with the [Zim](https://zimfw.sh) framework — autosuggestions, syntax highlighting, history substring search |
 | Prompt | [starship.toml](../.config/starship.toml) | [Starship](https://starship.rs) prompt, initialised via Zim's starship module |
+| Terminal | [Ghostty](../.config/ghostty/config) | TokyoNight theme, Fantasque Sans Mono, quick-terminal on `⌘+esc` |
 | Multiplexer | [`.tmux.conf`](../.tmux.conf) | Plays nicely with Neovim via vim-tmux-navigator |
 | Window management | [AeroSpace](../.config/aerospace/aerospace.toml) | Tiling window manager for macOS |
 | Packages | [`.Brewfile`](../.Brewfile) | CLI tools and casks installed by bootstrap |
