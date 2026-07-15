@@ -1,12 +1,8 @@
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
-		{
-			"williamboman/mason.nvim",
-			lazy = false,
-			opts = { auto_install = true },
-		},
-		"williamboman/mason-lspconfig.nvim",
+		"mason-org/mason.nvim",
+		"mason-org/mason-lspconfig.nvim",
 		"j-hui/fidget.nvim",
 	},
 	config = function()

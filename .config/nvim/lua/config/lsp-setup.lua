@@ -1,5 +1,6 @@
 -- LSP Settings
 -- This function gets executed when an LSP connects to a particular buffer.
+
 local on_attach = function(_, bufnr)
 	local nmap = function(keys, func, desc)
 		if desc then
@@ -50,9 +51,6 @@ local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
--- Setup mason so it can manage external tooling
-require("mason").setup()
-
 local servers = {
 	yamlls = {
 		yaml = {
@@ -72,15 +70,25 @@ mason_lspconfig.setup({
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
-mason_lspconfig.setup_handlers({
-	function(server_name)
-		require("lspconfig")[server_name].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			settings = servers[server_name],
-		})
-	end,
-})
+vim.lsp.config('*', { capabilities = capabilities, on_attach = on_attach })
+
+-- mason_lspconfig.setup_handlers({
+-- 	function(server_name)
+-- 		require("lspconfig")[server_name].setup({
+-- 			capabilities = capabilities,
+-- 			on_attach = on_attach,
+-- 			settings = servers[server_name],
+-- 		})
+-- 	end,
+-- 	["phpactor"] = function()
+-- 		require("lspconfig").phpactor.setup({
+-- 			filetypes = {
+-- 				"php",
+-- 				"blade",
+-- 			},
+-- 		})
+-- 	end,
+-- })
 
 -- Turn on lsp status information
 require("fidget").setup({})

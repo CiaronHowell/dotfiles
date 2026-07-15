@@ -28,36 +28,6 @@ key_mapper("n", "<c-j>", ":wincmd j<cr>")
 key_mapper("n", "<c-k>", ":wincmd k<cr>")
 key_mapper("n", "<c-l>", ":wincmd l<cr>")
 
--- Keybinds for telescope
-key_mapper("", "<leader>ff", ':lua require("telescope.builtin").find_files()<cr>')
-key_mapper("", "<leader>fg", ':lua require("telescope.builtin").live_grep()<cr>')
-key_mapper("", "<leader>fb", ':lua require("telescope.builtin").buffers()<cr>')
-key_mapper("", "<leader>fh", ':lua require("telescope.builtin").help_tags()<cr>')
-key_mapper("", "<leader>fd", ':lua require("telescope.builtin").diagnostics()<cr>')
-key_mapper("", "<leader>fk", ':lua require("telescope.builtin").keymaps()<cr>')
-key_mapper("", "<leader>ft", ":TodoTelescope<cr>")
-key_mapper("", "<leader>fs", ":Telescope session-lens search_session<cr>")
-
--- Keybinds for Harpoon
-key_mapper("", "<leader>m", ':lua require("harpoon.mark").add_file()<cr>') -- Mark files
--- Quick nav
-for i = 0, 9, 1 do
-	key_mapper("", string.format("<leader>%d", i), string.format(':lua require("harpoon.ui").nav_file(%d)<cr>', i))
-end
-key_mapper("", "<leader><left>", ':lua require("harpoon.ui").nav_prev()<cr>')
-key_mapper("", "<leader><right>", ':lua require("harpoon.ui").nav_next()<cr>')
-key_mapper("", "<leader>h", ':lua require("harpoon.ui").toggle_quick_menu()<cr>')
-key_mapper("", "<leader>fm", ":Telescope harpoon marks<cr>")
-key_mapper("", "<leader>t", ':lua require("harpoon.term").gotoTerminal(1)<cr>')
-
--- Keybinds for Git Worktree
-key_mapper("", "<leader>ww", ':lua require("telescope").extensions.git_worktree.git_worktrees()<cr>')
-key_mapper("", "<leader>wc", ':lua require("telescope").extensions.git_worktree.create_git_worktree()<cr>')
-
--- Keybinds for Nvim-Tree
-key_mapper("", "<leader>e", ":NvimTreeFocus<cr>")
-key_mapper("", "<leader>E", ":NvimTreeToggle<cr>")
-
 local export = {}
 
 function export.on_attach(_, bufnr)

@@ -2,9 +2,6 @@ local g = vim.g
 g.mapleader = " " -- This is setting leader to <SPACE>
 g.maplocalleader = " "
 
--- Needed for Gitlab Fugitive Browser
-g.fugitive_gitlab_domains = "https://gitlab.stfc.ac.uk"
-
 -- Needed for Tree Explorer
 g.loaded = 1
 g.loaded_netrwPlugin = 1
@@ -41,26 +38,15 @@ wo.number = true
 wo.relativenumber = true
 wo.signcolumn = "yes"
 wo.wrap = false
+wo.conceallevel = 2
 
--- Autocommands
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
-  pattern = "NvimTree*",
-  callback = function()
-    local api = require("nvim-tree.api")
-    local view = require("nvim-tree.view")
-
-    if not view.is_visible() then
-      api.tree.open()
-    end
-  end,
-})
 
 -- Highlight on Yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = "*",
+	callback = function()
+		vim.highlight.on_yank()
+	end,
+	group = highlight_group,
+	pattern = "*",
 })
