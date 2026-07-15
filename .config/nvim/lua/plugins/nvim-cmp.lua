@@ -9,7 +9,6 @@ return {
 		"hrsh7th/vim-vsnip",
 		"onsails/lspkind.nvim",
 		"f3fora/cmp-spell",
-		"rafamadriz/friendly-snippets",
 	},
 	config = function()
 		require("config.cmp-setup")

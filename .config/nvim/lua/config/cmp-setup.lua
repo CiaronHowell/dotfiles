@@ -2,9 +2,6 @@
 local cmp = require("cmp")
 local lspkind = require("lspkind")
 
-vim.opt.spell = true
-vim.opt.spelllang = { "en_us" }
-
 local has_words_before = function()
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
@@ -63,8 +60,27 @@ cmp.setup({
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		{ name = "vsnip" },
+		{ name = "path" },
 		{ name = "spell" },
 	}, {
 		{ name = "buffer" },
+	}),
+})
+
+-- Buffer-word completion when searching with / and ?
+cmp.setup.cmdline({ "/", "?" }, {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = {
+		{ name = "buffer" },
+	},
+})
+
+-- Path and command completion for : commands
+cmp.setup.cmdline(":", {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = cmp.config.sources({
+		{ name = "path" },
+	}, {
+		{ name = "cmdline" },
 	}),
 })

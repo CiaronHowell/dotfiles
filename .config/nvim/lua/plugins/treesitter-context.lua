@@ -1,4 +1,5 @@
 return {
 	"nvim-treesitter/nvim-treesitter-context",
-	dependencies = "nvim-treesitter",
+	dependencies = { "nvim-treesitter/nvim-treesitter" },
+	opts = {},
 }

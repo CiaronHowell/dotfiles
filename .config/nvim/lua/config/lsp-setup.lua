@@ -1,102 +1,74 @@
 -- LSP Settings
--- This function gets executed when an LSP connects to a particular buffer.
 
-local on_attach = function(_, bufnr)
-	local nmap = function(keys, func, desc)
-		if desc then
-			desc = "LSP: " .. desc
+vim.diagnostic.config({
+	severity_sort = true,
+	virtual_text = { spacing = 2 },
+	float = { border = "rounded", source = "if_many" },
+	update_in_insert = false,
+})
+
+-- Buffer-local keymaps, set whenever an LSP attaches
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("user-lsp-attach", { clear = true }),
+	callback = function(ev)
+		local nmap = function(keys, func, desc)
+			vim.keymap.set("n", keys, func, { buffer = ev.buf, desc = "LSP: " .. desc })
 		end
 
-		vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-	end
+		nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+		nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-	nmap("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
-	nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+		nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
+		nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+		nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
+		nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
+		nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+		nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
-	nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-	nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
-	nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
-	nmap("<leader>D", vim.lsp.buf.type_definition, "Type [D]efinition")
-	nmap("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-	nmap("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+		-- Diagnostics
+		nmap("]r", vim.diagnostic.open_float, "Expand Diagnostic")
 
-	-- Diagnostics
-	nmap("]r", vim.diagnostic.open_float, "Expand Diagnostic")
-	nmap("]s", vim.diagnostic.show, "Show Diagnostics")
+		-- See `:help K` for why this keymap
+		nmap("K", vim.lsp.buf.hover, "Hover Documentation")
+		nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
 
-	-- See `:help K` for why this keymap
-	nmap("K", vim.lsp.buf.hover, "Hover Documentation")
-	nmap("<C-k>", vim.lsp.buf.signature_help, "Signature Documentation")
+		-- Lesser used LSP functionality
+		nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+		nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
+		nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
+		nmap("<leader>wl", function()
+			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+		end, "[W]orkspace [L]ist Folders")
+	end,
+})
 
-	-- Lesser used LSP functionality
-	nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-	nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
-	nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
-	nmap("<leader>wl", function()
-		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-	end, "[W]orkspace [L]ist Folders")
+-- nvim-cmp supports additional completion capabilities
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+vim.lsp.config("*", { capabilities = capabilities })
 
-	-- Create a command `:Format` local to the LSP buffer
-	vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-		if vim.lsp.buf.format then
-			vim.lsp.buf.format()
-		elseif vim.lsp.buf.formatting then
-			vim.lsp.buf.formatting()
-		end
-	end, { desc = "Format current buffer with LSP" })
-end
-
--- Make runtime files discoverable to the server
-local runtime_path = vim.split(package.path, ";")
-table.insert(runtime_path, "lua/?.lua")
-table.insert(runtime_path, "lua/?/init.lua")
-
-local servers = {
-	yamlls = {
+-- Per-server settings; must be registered before mason-lspconfig.setup(),
+-- whose automatic_enable calls vim.lsp.enable() for installed servers
+vim.lsp.config("yamlls", {
+	settings = {
 		yaml = {
 			schemas = { kubernetes = "*.yaml" },
 		},
 	},
-	helm_ls = { yamlls = { path = "yaml-language-server" } },
-}
-
-local mason_lspconfig = require("mason-lspconfig")
--- Ensure the servers above are installed
-mason_lspconfig.setup({
-	ensure_installed = vim.tbl_keys(servers),
+})
+vim.lsp.config("helm_ls", {
+	settings = {
+		["helm-ls"] = {
+			yamlls = { path = "yaml-language-server" },
+		},
+	},
+})
+vim.lsp.config("phpactor", {
+	filetypes = { "php", "blade" },
 })
 
--- nvim-cmp supports additional completion capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-
-vim.lsp.config('*', { capabilities = capabilities, on_attach = on_attach })
-
--- mason_lspconfig.setup_handlers({
--- 	function(server_name)
--- 		require("lspconfig")[server_name].setup({
--- 			capabilities = capabilities,
--- 			on_attach = on_attach,
--- 			settings = servers[server_name],
--- 		})
--- 	end,
--- 	["phpactor"] = function()
--- 		require("lspconfig").phpactor.setup({
--- 			filetypes = {
--- 				"php",
--- 				"blade",
--- 			},
--- 		})
--- 	end,
--- })
+require("mason-lspconfig").setup({
+	ensure_installed = { "yamlls", "helm_ls", "lua_ls" },
+})
 
 -- Turn on lsp status information
 require("fidget").setup({})
-
--- "Disable" yamlls on helm charts
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-	pattern = "deployment.yaml",
-	callback = function()
-		vim.opt_local.filetype = "helm"
-	end,
-})

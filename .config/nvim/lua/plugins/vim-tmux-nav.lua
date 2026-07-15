@@ -1,10 +1,16 @@
 return {
 	"christoomey/vim-tmux-navigator",
-	lazy = false, -- We want the plugin to run from the get go
+	cmd = {
+		"TmuxNavigateLeft",
+		"TmuxNavigateDown",
+		"TmuxNavigateUp",
+		"TmuxNavigateRight",
+		"TmuxNavigatePrevious",
+	},
 	keys = {
-		{ "C-h", ":TmuxNavigateLeft<CR>" },
-		{ "C-j", ":TmuxNavigateDown<CR>" },
-		{ "C-k", ":TmuxNavigateUp<CR>" },
-		{ "C-l", ":TmuxNavigateRight<CR>" },
+		{ "<C-h>", "<cmd>TmuxNavigateLeft<cr>" },
+		{ "<C-j>", "<cmd>TmuxNavigateDown<cr>" },
+		{ "<C-k>", "<cmd>TmuxNavigateUp<cr>" },
+		{ "<C-l>", "<cmd>TmuxNavigateRight<cr>" },
 	},
 }

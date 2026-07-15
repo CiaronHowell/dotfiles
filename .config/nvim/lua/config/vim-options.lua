@@ -8,7 +8,6 @@ g.loaded_netrwPlugin = 1
 
 local o = vim.o
 o.termguicolors = true
-o.syntax = "on"
 o.errorbells = false
 o.ignorecase = true
 o.smartcase = true
@@ -27,25 +26,22 @@ o.hlsearch = false
 o.mouse = "a" -- Enable mouse mode
 o.breakindent = true
 o.updatetime = 250
-
-local bo = vim.bo
-bo.swapfile = false
-bo.autoindent = true
-bo.smartindent = true
-
-local wo = vim.wo
-wo.number = true
-wo.relativenumber = true
-wo.signcolumn = "yes"
-wo.wrap = false
-wo.conceallevel = 2
-
+o.swapfile = false
+o.autoindent = true
+o.smartindent = true
+o.number = true
+o.relativenumber = true
+o.signcolumn = "yes"
+o.wrap = false
+o.conceallevel = 2
+o.spell = true
+o.spelllang = "en_us"
 
 -- Highlight on Yank
 local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
-		vim.highlight.on_yank()
+		vim.hl.on_yank()
 	end,
 	group = highlight_group,
 	pattern = "*",

@@ -1,12 +1,12 @@
 return {
 	"rmagatti/auto-session",
-	config = function()
+	lazy = false,
+	init = function()
 		vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
-
-		require("auto-session").setup({
-			log_level = "error",
-			auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
-			auto_session_use_git_branch = true,
-		})
 	end,
+	opts = {
+		log_level = "error",
+		suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+		use_git_branch = true,
+	},
 }

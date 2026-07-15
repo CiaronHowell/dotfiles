@@ -2,7 +2,6 @@ return {
 	"nvim-telescope/telescope.nvim",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		"BurntSushi/ripgrep",
 		"ThePrimeagen/git-worktree.nvim",
 	},
 	config = function()
