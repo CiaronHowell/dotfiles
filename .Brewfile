@@ -1,11 +1,5 @@
 # Kegs
 tap "nikitabobko/tap"
-tap "homebrew/autoupdate"
-tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
-tap "homebrew/core"
-tap "homebrew/services"
 
 # CLI Tools
 brew "certbot"
@@ -21,7 +15,6 @@ brew "go"
 brew "golangci-lint"
 brew "gzip"
 brew "helm"
-brew "hyperkit"
 brew "jq"
 brew "kind"
 brew "kubernetes-cli"
@@ -39,7 +32,7 @@ brew "uv"
 brew "vim"
 brew "wget"
 brew "yadm"
-brew "z"
+brew "zoxide"
 
 # Apps
 cask "aerospace" # Tiling window manager
