@@ -1,4 +1,5 @@
 # Kegs
+tap "nikitabobko/tap"
 tap "homebrew/autoupdate"
 tap "homebrew/bundle"
 tap "homebrew/cask"
@@ -52,6 +53,7 @@ brew "z"
 brew "poetry"
 
 # Apps
+cask "aerospace" # Tiling window manager
 cask "blackhole-2ch"
 cask "joplin"
 cask "kap"

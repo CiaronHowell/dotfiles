@@ -31,6 +31,7 @@ Managed with [yadm](https://yadm.io), so the files live exactly where they belon
 | Shell | [`.zshrc`](../.zshrc), [`.zimrc`](../.zimrc) | Zsh with the [Zim](https://zimfw.sh) framework — autosuggestions, syntax highlighting, history substring search |
 | Prompt | [starship.toml](../.config/starship.toml) | [Starship](https://starship.rs) prompt, initialised via Zim's starship module |
 | Multiplexer | [`.tmux.conf`](../.tmux.conf) | Plays nicely with Neovim via vim-tmux-navigator |
+| Window management | [AeroSpace](../.config/aerospace/aerospace.toml) | Tiling window manager for macOS |
 | Packages | [`.Brewfile`](../.Brewfile) | CLI tools and casks installed by bootstrap |
 
 ## Machine-specific configs
