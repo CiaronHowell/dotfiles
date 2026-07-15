@@ -15,7 +15,6 @@ brew "dive"
 brew "docker"
 brew "docker-compose"
 brew "eza"
-brew "fish"
 brew "fzf"
 brew "ghq"
 brew "git"
@@ -58,11 +57,6 @@ cask "joplin"
 cask "kap"
 cask "obs"
 cask "obsidian"
-cask "raycast"
 cask "itsycal"
 cask "spotify" # Must have
 cask "tableplus"
-
-# Formulae
-brew "koekeishiya/formulae/yabai" # Tiler
-brew "koekeishiya/formulae/skhd" # Hotkey daemon

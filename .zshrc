@@ -1,46 +1,25 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 if [[ -f "/opt/homebrew/bin/brew" ]] then
   # If you're using macOS, you'll want this enabled
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 
-# -----------------
-# Zsh configuration
-# -----------------
-
 #
 # Aliases
 #
+
 alias vim='nvim'
 alias c='clear'
 
-#
 # Git Aliases
-#
-
 alias g='git'
 alias gs='git status -s'
 alias gd='git diff'
 alias gc='git commit'
 alias gb='git branch -a'
 
-#
-# History
-#
-
 # Remove older command from the history if a duplicate is to be added.
 setopt HIST_IGNORE_ALL_DUPS
-
-#
-# Input/output
-#
 
 # Set editor default keymap to emacs (`-e`) or vi (`-v`)
 bindkey -v
@@ -48,55 +27,36 @@ bindkey -v
 # Remove path separator from WORDCHARS.
 WORDCHARS=${WORDCHARS//[\/]}
 
-# --------------------
-# Module configuration
-# --------------------
-
 #
-# git
+# Module configuration
 #
 
 # Set a custom prefix for the generated aliases. The default prefix is 'G'.
 zstyle ':zim:git' aliases-prefix 'g'
 
-#
-# input
-#
-
 # Append `../` to your input for each `.` you type after an initial `..`
 zstyle ':zim:input' double-dot-expand yes
-
-#
-# termtitle
-#
 
 # Set a custom terminal title format using prompt expansion escape sequences.
 # See http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html#Simple-Prompt-Escapes
 # If none is provided, the default '%n@%m: %~' is used.
 zstyle ':zim:termtitle' format '%1~'
 
-#
-# zsh-autosuggestions
-#
-
 # Disable automatic widget re-binding on each precmd. This can be set when
 # zsh-users/zsh-autosuggestions is the last module in your ~/.zimrc.
 ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-
-#
-# zsh-syntax-highlighting
-#
 
 # Set what highlighters will be used.
 # See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters.md
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
 
-# ------------------
+#
 # Initialize modules
-# ------------------
+#
 
 ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
+
 # Download zimfw plugin manager if missing.
 if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
   if (( ${+commands[curl]} )); then
@@ -107,23 +67,22 @@ if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
         https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
   fi
 fi
+#
 # Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
 if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
   source ${ZIM_HOME}/zimfw.zsh init -q
 fi
+
 # Initialize modules.
 source ${ZIM_HOME}/init.zsh
 
-# ------------------------------
+#
 # Post-init module configuration
-# ------------------------------
+#
 
 eval "$(zoxide init zsh)"
 
-#
 # zsh-history-substring-search
-#
-
 zmodload -F zsh/terminfo +p:terminfo
 
 # Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
